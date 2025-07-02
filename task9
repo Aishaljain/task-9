@@ -1,0 +1,20 @@
+select*from global_superstore;
+
+SELECT * 
+FROM (
+    SELECT 
+        EXTRACT(YEAR FROM order_date) AS year,
+        EXTRACT(MONTH FROM order_date) AS month,
+        COUNT(DISTINCT order_id) AS total_orders,
+        SUM(sales) total_sales
+    FROM 
+        global_superstore
+    WHERE 
+        EXTRACT(YEAR FROM order_date) = 2014
+    GROUP BY 
+        EXTRACT(YEAR FROM order_date), 
+        EXTRACT(MONTH FROM order_date)
+    ORDER BY 
+        total_sales DESC
+)
+WHERE ROWNUM <= 5;
